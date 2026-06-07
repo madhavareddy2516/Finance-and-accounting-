@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Accounts & Finance Institute – AP | AR | R2R Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root {
+    --navy:   #0d1b2a;
+    --gold:   #c9a84c;
+    --gold2:  #e8c97a;
+    --cream:  #f8f4ed;
+    --white:  #ffffff;
+    --mid:    #4a5568;
+    --light:  #edf2f7;
+    --ap:     #1a6b5c;
+    --ar:     #7b2d8b;
+    --r2r:    #1a3f7a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    background: rgba(13,27,42,0.97);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 64px;
+    border-bottom: 2px solid var(--gold);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0 5%;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 50%, rgba(201,168,76,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 80% 40%, rgba(26,107,92,0.12) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 780px; }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.7s ease both;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--white);
+    line-height: 1.1;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    color: #a0aec0;
+    font-size: 1.1rem;
+    margin: 1.5rem 0 2.5rem;
+    line-height: 1.7;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-pills {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .pill {
+    padding: 8px 22px;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .pill-ap  { background: rgba(26,107,92,0.25);  border: 1px solid #1a6b5c; color: #4fd1c5; }
+  .pill-ar  { background: rgba(123,45,139,0.25); border: 1px solid #7b2d8b; color: #d6bcfa; }
+  .pill-r2r { background: rgba(26,63,122,0.25);  border: 1px solid #1a3f7a; color: #90cdf4; }
+  .btn-hero {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    padding: 14px 40px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .btn-hero:hover { background: var(--gold2); transform: translateY(-2px); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 90px 5%; }
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--navy);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    color: var(--mid);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 620px;
+    margin-bottom: 3rem;
+  }
+
+  /* ── ABOUT STRIP ── */
+  .about-strip {
+    background: var(--navy);
+    padding: 60px 5%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem;
+    text-align: center;
+  }
+  .stat-box { padding: 1rem; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-label { color: #a0aec0; font-size: 0.85rem; margin-top: 4px; }
+
+  /* ── CURRICULUM ── */
+  #curriculum { background: var(--cream); }
+  .course-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  .course-card {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .course-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+  .card-header {
+    padding: 28px 28px 20px;
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  .card-header::after {
+    content: '';
+    position: absolute;
+    right: -20px; bottom: -30px;
+    width: 120px; height: 120px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 50%;
+  }
+  .card-ap    { background: linear-gradient(135deg, #0f4c3a, #1a6b5c); }
+  .card-ar    { background: linear-gradient(135deg, #4a1259, #7b2d8b); }
+  .card-r2r   { background: linear-gradient(135deg, #0d2557, #1a3f7a); }
+  .card-icon { font-size: 2rem; margin-bottom: 0.7rem; display: block; }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
+  }
+  .card-duration {
+    font-size: 0.78rem;
+    opacity: 0.8;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .card-body { padding: 24px 28px; }
+  .module-list { list-style: none; }
+  .module-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.9rem;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+  .module-list li:last-child { border-bottom: none; }
+  .module-list li::before {
+    content: '✦';
+    font-size: 0.6rem;
+    color: var(--gold);
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .card-fee {
+    margin-top: 20px;
+    background: var(--light);
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .fee-label { font-size: 0.8rem; color: var(--mid); }
+  .fee-amount { font-weight: 700; font-size: 1.1rem; color: var(--navy); }
+
+  /* ── TOOLS ── */
+  #tools { background: var(--navy); }
+  #tools .section-title { color: var(--white); }
+  #tools .section-sub  { color: #a0aec0; }
+  .tools-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .tool-badge {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--cream);
+    padding: 10px 22px;
+    border-radius: 100px;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--cream); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  @media(max-width: 700px) { .contact-grid { grid-template-columns: 1fr; } }
+  .contact-info-card {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 40px;
+    color: var(--white);
+  }
+  .contact-info-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--gold);
+    margin-bottom: 2rem;
+  }
+  .ci-row {
+    display: flex; gap: 16px; align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+  .ci-icon {
+    width: 40px; height: 40px;
+    background: rgba(201,168,76,0.15);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .ci-text { font-size: 0.95rem; line-height: 1.6; color: #cbd5e0; }
+  .ci-text strong { display: block; color: var(--white); margin-bottom: 2px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ── REGISTER FORM ── */
+  #register { background: #f0ede6; }
+  .form-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 48px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+    max-width: 740px;
+    margin: 0 auto;
+  }
+  .form-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 0.4rem;
+  }
+  .form-card p { color: var(--mid); font-size: 0.9rem; margin-bottom: 2rem; }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+  @media(max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+  label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--mid);
+  }
+  input, select, textarea {
+    padding: 12px 16px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--navy);
+    background: var(--white);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  .btn-submit {
+    width: 100%;
+    padding: 16px;
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .btn-submit:hover { background: #1a2d44; transform: translateY(-1px); }
+  .success-msg {
+    display: none;
+    background: #f0fff4;
+    border: 1.5px solid #68d391;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  .success-msg .tick { font-size: 2rem; }
+  .success-msg h4 { color: #276749; font-size: 1.1rem; margin: 8px 0 4px; }
+  .success-msg p { color: #48bb78; font-size: 0.9rem; margin: 0; }
+  .btn-pdf {
+    display: inline-block;
+    margin-top: 12px;
+    background: var(--gold);
+    color: var(--navy);
+    padding: 10px 28px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-pdf:hover { background: var(--gold2); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: #718096;
+    text-align: center;
+    padding: 32px 5%;
+    font-size: 0.85rem;
+    border-top: 2px solid var(--gold);
+  }
+  footer span { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Accounts &amp; Finance Institute</div>
+  <ul class="nav-links">
+    <li><a href="#curriculum">Courses</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#register">Register</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Learn Today, Lead Tomorrow</div>
+    <h1>Master <span>Finance Operations</span> from Ground Up</h1>
+    <p class="hero-sub">
+      Industry-focused training in Accounts Payable, Accounts Receivable &amp; Record-to-Report —
+      crafted by practitioners, for professionals and freshers.
+    </p>
+    <div class="hero-pills">
+      <span class="pill pill-ap">📥 Accounts Payable</span>
+      <span class="pill pill-ar">📤 Accounts Receivable</span>
+      <span class="pill pill-r2r">📊 Record to Report</span>
+    </div>
+    <a href="#register" class="btn-hero">Enroll Now — Limited Seats</a>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="about-strip">
+  <div class="stat-box"><span class="stat-num">3</span><span class="stat-label">Specialised Courses</span></div>
+  <div class="stat-box"><span class="stat-num">150+</span><span class="stat-label">Hours of Content</span></div>
+  <div class="stat-box"><span class="stat-num">Live</span><span class="stat-label">Industry Projects</span></div>
+  <div class="stat-box"><span class="stat-num">100%</span><span class="stat-label">Placement Support</span></div>
+</div>
+
+<!-- CURRICULUM -->
+<section id="curriculum">
+  <div class="section-label">What You'll Learn</div>
+  <h2 class="section-title">Course Curriculum</h2>
+  <p class="section-sub">Each programme is structured to take you from fundamentals to job-ready proficiency, with real-world tools and process exposure.</p>
+
+  <div class="course-cards">
+
+    <!-- AP CARD -->
+    <div class="course-card">
+      <div class="card-header card-ap">
+        <span class="card-icon">📥</span>
+        <div class="card-title">Accounts Payable (AP)</div>
+        <div class="card-duration">8 Weeks · 50+ Hours</div>
+      </div>
+      <div class="card-body">
+        <ul class="module-list">
+          <li>Introduction to P2P (Procure-to-Pay) Cycle</li>
+          <li>Vendor Master Data Management</li>
+          <li>Invoice Processing – PO &amp; Non-PO Invoices</li>
+          <li>Three-Way Matching (PO, GRN, Invoice)</li>
+          <li>Payment Processing – NEFT, RTGS, Cheque, SWIFT</li>
+          <li>TDS / GST on Vendor Payments</li>
+          <li>Vendor Reconciliation &amp; Statement Matching</li>
+          <li>AP Aging Report – Analysis &amp; Interpretation</li>
+          <li>Month-End &amp; Year-End Close Activities</li>
+          <li>AP in SAP / Tally / Oracle – Hands-on</li>
+          <li>Interview Preparation &amp; Mock Rounds</li>
+        </ul>
+        <div class="card-fee">
+          <span class="fee-label">Course Fee</span>
+          <span class="fee-amount">₹ 8,000</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- AR CARD -->
+    <div class="course-card">
+      <div class="card-header card-ar">
+        <span class="card-icon">📤</span>
+        <div class="card-title">Accounts Receivable (AR)</div>
+        <div class="card-duration">8 Weeks · 50+ Hours</div>
+      </div>
+      <div class="card-body">
+        <ul class="module-list">
+          <li>Introduction to O2C (Order-to-Cash) Cycle</li>
+          <li>Customer Master Data &amp; Credit Management</li>
+          <li>Invoice Generation &amp; Billing Processes</li>
+          <li>Cash Application &amp; Payment Receipts</li>
+          <li>Deductions, Disputes &amp; Chargebacks</li>
+          <li>Collections &amp; Dunning Process</li>
+          <li>AR Aging Report – Bucket Analysis</li>
+          <li>Bad Debt Provisioning &amp; Write-offs</li>
+          <li>Bank Reconciliation &amp; UNAPPLIED Cash</li>
+          <li>AR in SAP / Tally / Oracle – Hands-on</li>
+          <li>Interview Preparation &amp; Mock Rounds</li>
+        </ul>
+        <div class="card-fee">
+          <span class="fee-label">Course Fee</span>
+          <span class="fee-amount">₹ 8,000</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- R2R CARD -->
+    <div class="course-card">
+      <div class="card-header card-r2r">
+        <span class="card-icon">📊</span>
+        <div class="card-title">Record to Report (R2R)</div>
+        <div class="card-duration">10 Weeks · 60+ Hours</div>
+      </div>
+      <div class="card-body">
+        <ul class="module-list">
+          <li>Introduction to R2R Cycle &amp; Financial Close</li>
+          <li>General Ledger (GL) Accounting Fundamentals</li>
+          <li>Journal Entries – Standard, Accruals, Reversals</li>
+          <li>Fixed Assets Accounting &amp; Depreciation</li>
+          <li>Intercompany Reconciliation</li>
+          <li>Bank Reconciliation Statement (BRS)</li>
+          <li>Trial Balance, P&amp;L &amp; Balance Sheet</li>
+          <li>Month-End Close Checklist &amp; Best Practices</li>
+          <li>Financial Reporting &amp; MIS Preparation</li>
+          <li>Variance Analysis &amp; Commentary</li>
+          <li>R2R in SAP / Oracle – Practical Exposure</li>
+          <li>Mock Interviews &amp; Case Studies</li>
+        </ul>
+        <div class="card-fee">
+          <span class="fee-label">Course Fee</span>
+          <span class="fee-amount">₹ 10,000</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /course-cards -->
+
+  <!-- Combo offer -->
+  <div style="margin-top:2.5rem; background:var(--navy); border-radius:14px; padding:30px 36px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
+    <div>
+      <div style="color:var(--gold); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase; font-weight:600; margin-bottom:6px;">🔥 Bundle Offer</div>
+      <div style="color:var(--white); font-family:'Playfair Display',serif; font-size:1.5rem;">All 3 Courses Together</div>
+      <div style="color:#a0aec0; font-size:0.9rem; margin-top:4px;">Save ₹ 4,000 — Best value for complete F&amp;A domain expertise</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="color:#a0aec0; font-size:0.85rem; text-decoration:line-through;">₹ 26,000</div>
+      <div style="color:var(--gold); font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900;">₹ 22,000</div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-label">Technology Coverage</div>
+  <h2 class="section-title" style="color:var(--white);">Tools &amp; Software You'll Use</h2>
+  <p class="section-sub" style="color:#a0aec0;">Hands-on exposure to industry-standard platforms used by top MNCs and GCCs.</p>
+  <div class="tools-grid">
+    <span class="tool-badge">📗 Microsoft Excel (Advanced)</span>
+    <span class="tool-badge">📘 SAP FI Module</span>
+    <span class="tool-badge">📙 Tally Prime</span>
+    <span class="tool-badge">📕 Oracle Financials</span>
+    <span class="tool-badge">⚙️ VBA Macros &amp; Automation</span>
+    <span class="tool-badge">📊 Power BI Basics</span>
+    <span class="tool-badge">🔗 ServiceNow Finance Module</span>
+    <span class="tool-badge">📄 MS Word &amp; Outlook</span>
+    <span class="tool-badge">🧾 GST &amp; TDS Portals</span>
+    <span class="tool-badge">📂 Google Sheets</span>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Reach Us</div>
+  <h2 class="section-title">Contact Details</h2>
+  <p class="section-sub">We're here to answer your questions and help you choose the right programme.</p>
+  <div class="contact-grid">
+    <div class="contact-info-card">
+      <h3>Accounts &amp; Finance Institute</h3>
+      <div class="ci-row">
+        <div class="ci-icon">📍</div>
+        <div class="ci-text"><strong>Address</strong>
+          Hyderabad, Telangana, India
+        </div>
+      </div>
+      <div class="ci-row">
+        <div class="ci-icon">📞</div>
+        <div class="ci-text"><strong>Phone / WhatsApp</strong>
+          +91 83282 61103
+        </div>
+      </div>
+      <div class="ci-row">
+        <div class="ci-icon">✉️</div>
+        <div class="ci-text"><strong>Email</strong>
+          Contact us on WhatsApp / Call: 8328261103
+        </div>
+      </div>
+      <div class="ci-row">
+        <div class="ci-icon">🕐</div>
+        <div class="ci-text"><strong>Batch Timings</strong>
+          Weekday: 7:00 AM – 9:00 AM &amp; 7:00 PM – 9:00 PM<br/>Weekend: 9:00 AM – 1:00 PM
+        </div>
+      </div>
+      <div class="ci-row">
+        <div class="ci-icon">🌐</div>
+        <div class="ci-text"><strong>Mode</strong>
+          Online (Live) · Offline · Hybrid Available
+        </div>
+      </div>
+    </div>
+
+    <!-- MINI INFO -->
+    <div>
+      <div style="background:var(--white); border-radius:14px; padding:30px; box-shadow:0 4px 20px rgba(0,0,0,0.06); margin-bottom:1.5rem;">
+        <h4 style="font-family:'Playfair Display',serif; margin-bottom:1rem; font-size:1.2rem;">Why Choose Us?</h4>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:12px;">
+          <li style="display:flex; gap:10px; font-size:0.9rem; color:var(--mid);">✅ <span><strong style="color:var(--navy);">Experienced Trainers</strong> — F&amp;A professionals with 10+ years industry experience</span></li>
+          <li style="display:flex; gap:10px; font-size:0.9rem; color:var(--mid);">✅ <span><strong style="color:var(--navy);">Live Projects &amp; Real-Time Training</strong> — 100% practical approach with real data</span></li>
+          <li style="display:flex; gap:10px; font-size:0.9rem; color:var(--mid);">✅ <span><strong style="color:var(--navy);">Career Guidance &amp; Support</strong> — Resume review, mock interviews &amp; placement assistance</span></li>
+          <li style="display:flex; gap:10px; font-size:0.9rem; color:var(--mid);">✅ <span><strong style="color:var(--navy);">Certificate of Completion</strong> — Industry-recognised certificate on course completion</span></li>
+          <li style="display:flex; gap:10px; font-size:0.9rem; color:var(--mid);">✅ <span><strong style="color:var(--navy);">Flexible Batches (Weekday/Weekend)</strong> — Morning, evening &amp; weekend slots available</span></li>
+        </ul>
+      </div>
+      <div style="background:var(--gold); border-radius:14px; padding:28px 30px; text-align:center;">
+        <div style="font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--navy); margin-bottom:6px;">Next Batch Starts</div>
+        <div style="font-size:2rem; font-weight:900; color:var(--navy);">July 1, 2025</div>
+        <div style="font-size:0.85rem; color:rgba(13,27,42,0.7); margin-top:6px;">Call: 8328261103 · Limited seats per batch</div>
+        <a href="#register" style="display:inline-block; margin-top:16px; background:var(--navy); color:var(--white); padding:10px 28px; border-radius:6px; text-decoration:none; font-weight:700; font-size:0.9rem;">Register Now →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTER -->
+<section id="register">
+  <div class="section-label">Join Us</div>
+  <h2 class="section-title">Student Registration</h2>
+  <p class="section-sub">Fill in your details below. You will receive a registration confirmation PDF instantly.</p>
+
+  <div class="form-card">
+    <h3>Registration Form</h3>
+    <p>All fields marked * are mandatory. Your details are kept strictly confidential.</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" id="f_name" placeholder="Your full name" />
+      </div>
+      <div class="form-group">
+        <label>Date of Birth *</label>
+        <input type="date" id="f_dob" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Mobile Number *</label>
+        <input type="tel" id="f_mobile" placeholder="+91 XXXXX XXXXX" />
+      </div>
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" id="f_email" placeholder="you@email.com" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Highest Qualification *</label>
+        <select id="f_qual">
+          <option value="">Select qualification</option>
+          <option>B.Com</option>
+          <option>M.Com</option>
+          <option>MBA (Finance)</option>
+          <option>BBA</option>
+          <option>CA / CMA Inter</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Work Experience</label>
+        <select id="f_exp">
+          <option value="">Select experience</option>
+          <option>Fresher</option>
+          <option>0–1 Years</option>
+          <option>1–3 Years</option>
+          <option>3–5 Years</option>
+          <option>5+ Years</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Course Interested In *</label>
+        <select id="f_course">
+          <option value="">Select course</option>
+          <option>Accounts Payable (AP) – ₹8,000</option>
+          <option>Accounts Receivable (AR) – ₹8,000</option>
+          <option>Record to Report (R2R) – ₹10,000</option>
+          <option>All 3 Courses Bundle – ₹22,000</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Preferred Batch *</label>
+        <select id="f_batch">
+          <option value="">Select batch</option>
+          <option>Weekday Morning (7–9 AM)</option>
+          <option>Weekday Evening (7–9 PM)</option>
+          <option>Weekend (Sat–Sun, 9 AM–1 PM)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Mode of Learning *</label>
+        <select id="f_mode">
+          <option value="">Select mode</option>
+          <option>Online – Live Classes</option>
+          <option>Offline – Classroom</option>
+          <option>Hybrid</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>City / Location</label>
+        <input type="text" id="f_city" placeholder="Your city" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group full">
+        <label>How did you hear about us?</label>
+        <select id="f_source">
+          <option value="">Select source</option>
+          <option>Instagram</option>
+          <option>WhatsApp</option>
+          <option>Friend / Referral</option>
+          <option>Google Search</option>
+          <option>LinkedIn</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group full">
+        <label>Any Message / Query</label>
+        <textarea id="f_msg" placeholder="Any specific questions or requirements..."></textarea>
+      </div>
+    </div>
+
+    <button class="btn-submit" onclick="submitForm()">Submit Registration</button>
+
+    <div class="success-msg" id="successMsg">
+      <div class="tick">🎉</div>
+      <h4>Registration Successful!</h4>
+      <p>Thank you for registering with Accounts & Finance Institute. Our team will contact you within 24 hours.</p>
+      <br/>
+      <button class="btn-pdf" onclick="downloadPDF()">⬇ Download Registration PDF</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 <span>Accounts &amp; Finance Institute</span> · Hyderabad, Telangana · All Rights Reserved</p>
+  <p style="margin-top:6px;">Learn Today, Lead Tomorrow · Practical Training · Real World Knowledge · Better Career Opportunities</p>
+</footer>
+
+<script>
+// Store submitted data for PDF
+let submittedData = {};
+
+function submitForm() {
+  const name   = document.getElementById('f_name').value.trim();
+  const dob    = document.getElementById('f_dob').value;
+  const mobile = document.getElementById('f_mobile').value.trim();
+  const email  = document.getElementById('f_email').value.trim();
+  const qual   = document.getElementById('f_qual').value;
+  const exp    = document.getElementById('f_exp').value;
+  const course = document.getElementById('f_course').value;
+  const batch  = document.getElementById('f_batch').value;
+  const mode   = document.getElementById('f_mode').value;
+  const city   = document.getElementById('f_city').value.trim();
+  const source = document.getElementById('f_source').value;
+  const msg    = document.getElementById('f_msg').value.trim();
+
+  if (!name || !mobile || !email || !qual || !course || !batch || !mode) {
+    alert('Please fill in all mandatory fields marked with *');
+    return;
+  }
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
+    alert('Please enter a valid email address.');
+    return;
+  }
+
+  const regId = 'AFI-' + Date.now().toString().slice(-6);
+  const today = new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'long', year:'numeric' });
+
+  submittedData = { name, dob: dob || 'Not provided', mobile, email, qual, exp: exp || 'Not provided', course, batch, mode, city: city || 'Not provided', source: source || 'Not provided', msg: msg || '—', regId, regDate: today };
+
+  document.getElementById('successMsg').style.display = 'block';
+  document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const d = submittedData;
+
+  const navy = [13, 27, 42];
+  const gold = [201, 168, 76];
+  const white = [255, 255, 255];
+  const light = [248, 244, 237];
+  const mid   = [74, 85, 104];
+  const green = [39, 103, 73];
+
+  const W = 210; const H = 297;
+
+  // Header bar
+  doc.setFillColor(...navy);
+  doc.rect(0, 0, W, 46, 'F');
+
+  // Gold accent line
+  doc.setFillColor(...gold);
+  doc.rect(0, 46, W, 2.5, 'F');
+
+  // Institute name
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(22);
+  doc.setTextColor(...gold);
+  doc.text('Accounts & Finance Institute', 20, 20);
+
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(180, 180, 180);
+  doc.text('Accounts Payable  |  Accounts Receivable  |  Record to Report', 20, 28);
+  doc.text('Hyderabad, Telangana, India', 20, 34);
+  doc.text('Phone/WhatsApp: +91 83282 61103', 20, 40);
+
+  // Reg ID badge
+  doc.setFillColor(...gold);
+  doc.roundedRect(150, 10, 48, 18, 3, 3, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7);
+  doc.setTextColor(...navy);
+  doc.text('REGISTRATION ID', 174, 17, { align: 'center' });
+  doc.setFontSize(11);
+  doc.text(d.regId, 174, 24, { align: 'center' });
+
+  // Title
+  doc.setFillColor(...light);
+  doc.rect(0, 48.5, W, 18, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor(...navy);
+  doc.text('STUDENT REGISTRATION CONFIRMATION', W/2, 60, { align: 'center' });
+
+  // Registration date
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8.5);
+  doc.setTextColor(...mid);
+  doc.text(`Date of Registration: ${d.regDate}`, W/2, 67, { align: 'center' });
+
+  // SECTION: Personal Details
+  let y = 80;
+  const drawSection = (title, items) => {
+    // Section header
+    doc.setFillColor(...navy);
+    doc.rect(14, y, W - 28, 9, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.setTextColor(...gold);
+    doc.text(title.toUpperCase(), 20, y + 6.2);
+    y += 14;
+
+    items.forEach(([label, value], i) => {
+      if (i % 2 === 0) {
+        doc.setFillColor(i === 0 ? 245 : 250, i === 0 ? 243 : 248, i === 0 ? 238 : 244);
+        doc.rect(14, y - 4, W - 28, 10, 'F');
+      }
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.setTextColor(...mid);
+      doc.text(label + ':', 20, y + 2);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(...navy);
+      doc.setFontSize(9);
+      doc.text(String(value), 80, y + 2);
+      y += 11;
+    });
+    y += 4;
+  };
+
+  drawSection('Personal Information', [
+    ['Full Name', d.name],
+    ['Date of Birth', d.dob],
+    ['Mobile Number', d.mobile],
+    ['Email Address', d.email],
+    ['City / Location', d.city],
+  ]);
+
+  drawSection('Academic & Professional Background', [
+    ['Highest Qualification', d.qual],
+    ['Work Experience', d.exp],
+  ]);
+
+  drawSection('Course Enrollment Details', [
+    ['Course Selected', d.course],
+    ['Batch Preference', d.batch],
+    ['Mode of Learning', d.mode],
+    ['Heard About Us', d.source],
+  ]);
+
+  // Message
+  if (d.msg && d.msg !== '—') {
+    doc.setFillColor(...navy);
+    doc.rect(14, y, W - 28, 9, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.setTextColor(...gold);
+    doc.text('MESSAGE / QUERY', 20, y + 6.2);
+    y += 14;
+    doc.setFillColor(248, 244, 237);
+    doc.rect(14, y - 4, W - 28, 18, 'F');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(...navy);
+    const msgLines = doc.splitTextToSize(d.msg, W - 52);
+    doc.text(msgLines, 20, y + 2);
+    y += 22;
+  }
+
+  // Success notice
+  y += 4;
+  doc.setFillColor(240, 255, 244);
+  doc.roundedRect(14, y, W - 28, 22, 4, 4, 'F');
+  doc.setDrawColor(...green);
+  doc.setLineWidth(0.5);
+  doc.roundedRect(14, y, W - 28, 22, 4, 4, 'S');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9.5);
+  doc.setTextColor(...green);
+  doc.text('✔  Registration Received Successfully', W/2, y + 9, { align: 'center' });
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(...mid);
+  doc.text('Our admissions team will contact you within 24 hours on your registered mobile/email.', W/2, y + 16, { align: 'center' });
+  y += 30;
+
+  // Terms
+  doc.setFontSize(7.5);
+  doc.setTextColor(160, 160, 160);
+  doc.setFont('helvetica', 'italic');
+  doc.text('This is a system-generated registration confirmation. Fees are payable at the time of batch commencement.', W/2, y, { align: 'center' });
+
+  // Footer bar
+  doc.setFillColor(...navy);
+  doc.rect(0, H - 16, W, 16, 'F');
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(...gold);
+  doc.text('Accounts & Finance Institute · Hyderabad · +91 83282 61103', W/2, H - 7, { align: 'center' });
+
+  doc.save(`AFI_Registration_${d.regId}.pdf`);
+}
+</script>
+</body>
+</html>
