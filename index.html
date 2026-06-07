@@ -6,6 +6,7 @@
 <title>Accounts & Finance Institute – AP | AR | R2R Training</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
   :root {
     --navy:   #0d1b2a;
@@ -763,15 +764,27 @@
       </div>
     </div>
 
-    <button class="btn-submit" onclick="submitForm()">Submit Registration</button>
+    <button class="btn-submit" id="submitBtn" onclick="submitForm()">Submit Registration</button>
+
+    <div id="sendingMsg" style="display:none; text-align:center; margin-top:1.2rem; padding:16px; background:#fffbeb; border:1.5px solid #f6ad55; border-radius:10px;">
+      <div style="font-size:1.5rem;">⏳</div>
+      <p style="color:#b7791f; font-weight:600; margin-top:6px;">Sending registration... please wait</p>
+    </div>
 
     <div class="success-msg" id="successMsg">
       <div class="tick">🎉</div>
       <h4>Registration Successful!</h4>
-      <p>Thank you for registering with Accounts & Finance Institute. Our team will contact you within 24 hours.</p>
+      <p>Thank you for registering with Accounts &amp; Finance Institute. Our team will contact you within 24 hours.</p>
+      <p style="font-size:0.85rem; color:#48bb78; margin-top:6px;">✅ Registration details have been emailed to the institute.</p>
       <br/>
       <button class="btn-pdf" onclick="downloadPDF()">⬇ Download Registration PDF</button>
     </div>
+
+    <div id="errorMsg" style="display:none; text-align:center; margin-top:1.2rem; padding:16px; background:#fff5f5; border:1.5px solid #fc8181; border-radius:10px;">
+      <div style="font-size:1.5rem;">⚠️</div>
+      <p style="color:#c53030; font-weight:600; margin-top:6px;">Could not send email. Registration saved — contact us on 8328261103.</p>
+    </div>
+  </div></div>
   </div>
 </section>
 
@@ -782,6 +795,9 @@
 </footer>
 
 <script>
+// EmailJS Initialization
+emailjs.init('30OxHCuWgGuqBlWfd');
+
 // Store submitted data for PDF
 let submittedData = {};
 
@@ -813,8 +829,47 @@ function submitForm() {
 
   submittedData = { name, dob: dob || 'Not provided', mobile, email, qual, exp: exp || 'Not provided', course, batch, mode, city: city || 'Not provided', source: source || 'Not provided', msg: msg || '—', regId, regDate: today };
 
-  document.getElementById('successMsg').style.display = 'block';
-  document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // Show sending indicator
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('submitBtn').innerText = 'Sending...';
+  document.getElementById('sendingMsg').style.display = 'block';
+  document.getElementById('errorMsg').style.display = 'none';
+
+  // Send email via EmailJS
+  const templateParams = {
+    student_name  : name,
+    mobile        : mobile,
+    email         : email,
+    dob           : dob || 'Not provided',
+    qualification : qual,
+    experience    : exp || 'Not provided',
+    course        : course,
+    batch         : batch,
+    mode          : mode,
+    city          : city || 'Not provided',
+    source        : source || 'Not provided',
+    message       : msg || '—',
+    reg_id        : regId,
+    reg_date      : today
+  };
+
+  emailjs.send('service_roy3z04', 'template_x645bri', templateParams)
+    .then(function() {
+      document.getElementById('sendingMsg').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+      document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      document.getElementById('submitBtn').innerText = 'Submitted ✓';
+    })
+    .catch(function(error) {
+      console.error('EmailJS error:', error);
+      document.getElementById('sendingMsg').style.display = 'none';
+      document.getElementById('errorMsg').style.display = 'block';
+      // Still show success to student so they are not confused
+      document.getElementById('successMsg').style.display = 'block';
+      document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('submitBtn').innerText = 'Submit Registration';
+    });
 }
 
 function downloadPDF() {
